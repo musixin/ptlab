@@ -10,8 +10,8 @@ import java.nio.file.Files;
 class Document {
 
     private String name;
-    private boolean modified = false;
     private TextArea area;
+    private boolean modified;
 
     public void bindTextArea(TextArea area) {
         this.area = area;

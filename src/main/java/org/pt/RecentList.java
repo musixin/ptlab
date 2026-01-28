@@ -1,35 +1,52 @@
 package org.pt;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 
 class RecentList {
+
     private static final int MAX = 5;
-    private List<String> files = new ArrayList<>();
+    private static RecentList instance;
+
     private final File store = new File("recent.txt");
+    private ObservableList<String> files = FXCollections.observableArrayList();
 
-    public void add(String fileName) {
-        files.remove(fileName);
-        files.add(0, fileName);
-        if (files.size() > MAX) files = files.subList(0, MAX);
+    public static RecentList getInstance() {
+        if (instance == null) {
+            instance = new RecentList();
+        }
+        return instance;
     }
 
-    public List<String> getFiles() {
-        return files;
-    }
-
-    public void saveData() {
-        try (PrintWriter pw = new PrintWriter(store)) {
-            for (String f : files) pw.println(f);
-        } catch (IOException ignored) {}
-    }
-
-    public void loadData() {
-        if (!store.exists()) return;
+    private RecentList() {
+        if (!store.exists()) {
+            return;
+        }
         try (BufferedReader br = new BufferedReader(new FileReader(store))) {
             String line;
-            while ((line = br.readLine()) != null) files.add(line);
+            while ((line = br.readLine()) != null) {
+                files.add(line);
+            }
         } catch (IOException ignored) {}
+    }
+
+    public void add(String path) {
+        files.remove(path); // убираем дубли
+        files.add(0, path); // добавляем в начало
+        if (files.size() > MAX) files.remove(MAX, files.size());
+    }
+
+    public void flush() {
+        try (PrintWriter pw = new PrintWriter(store)) {
+            for (String f : files) {
+                pw.println(f);
+            }
+        } catch (IOException ignored) {}
+    }
+
+    public ObservableList<String> getList() {
+        return files;
     }
 }

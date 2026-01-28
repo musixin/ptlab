@@ -1,5 +1,4 @@
-/Users/nikitamusihin/Desktop/topfile
-/Users/nikitamusihin/Desktop/4
-/Users/nikitamusihin/Desktop/1
-/Users/nikitamusihin/Desktop/3
 /Users/nikitamusihin/Desktop/3.txt
+/Users/nikitamusihin/Desktop/3
+/Users/nikitamusihin/Desktop/1
+/Users/nikitamusihin/Desktop/2
